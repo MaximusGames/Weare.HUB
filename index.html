@@ -1,0 +1,1575 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>HUB</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+<!-- =========================================================
+     AUTH
+========================================================== -->
+
+<div
+    id="authScreen"
+    class="auth-screen"
+>
+
+    <div class="auth-card">
+
+        <div class="auth-logo">
+            H
+        </div>
+
+        <h1>HUB</h1>
+
+        <p class="auth-subtitle">
+            Your space. Your people. Your HUB.
+        </p>
+
+
+        <div class="auth-tabs">
+
+            <button
+                class="auth-tab active"
+                data-auth="login"
+                onclick="showAuth('login')"
+            >
+                Anmelden
+            </button>
+
+            <button
+                class="auth-tab"
+                data-auth="register"
+                onclick="showAuth('register')"
+            >
+                Konto erstellen
+            </button>
+
+        </div>
+
+
+        <div
+            id="loginForm"
+            class="auth-form"
+        >
+
+            <input
+                id="loginUsername"
+                type="text"
+                placeholder="Benutzername"
+                autocomplete="username"
+            >
+
+            <input
+                id="loginPassword"
+                type="password"
+                placeholder="Passwort"
+                autocomplete="current-password"
+            >
+
+            <div
+                id="loginError"
+                class="form-error"
+            ></div>
+
+            <button
+                class="primary-button full"
+                onclick="login()"
+            >
+                Anmelden
+            </button>
+
+        </div>
+
+
+        <div
+            id="registerForm"
+            class="auth-form hidden"
+        >
+
+            <input
+                id="registerUsername"
+                type="text"
+                placeholder="Benutzername"
+                autocomplete="username"
+            >
+
+            <input
+                id="registerPassword"
+                type="password"
+                placeholder="Passwort"
+                autocomplete="new-password"
+            >
+
+            <input
+                id="registerPassword2"
+                type="password"
+                placeholder="Passwort wiederholen"
+                autocomplete="new-password"
+            >
+
+            <div
+                id="registerError"
+                class="form-error"
+            ></div>
+
+            <button
+                class="primary-button full"
+                onclick="register()"
+            >
+                Konto erstellen
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     APP
+========================================================== -->
+
+<div
+    id="app"
+    class="app hidden"
+>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-top">
+
+            <div class="brand">
+                <div class="brand-mark">H</div>
+                <span>HUB</span>
+            </div>
+
+        </div>
+
+
+        <div class="sidebar-section">
+
+            <div class="sidebar-label">
+                MY HUBS
+            </div>
+
+            <div
+                id="hubList"
+                class="hub-list"
+            ></div>
+
+
+            <button
+                class="sidebar-create"
+                onclick="openCreateHub()"
+            >
+                <span>+</span>
+                Create Hub
+            </button>
+
+        </div>
+
+
+        <div class="sidebar-section secondary">
+
+            <button
+                class="sidebar-link"
+                onclick="showHome()"
+            >
+                <span>⌂</span>
+                Home
+            </button>
+
+            <button
+                class="sidebar-link"
+                onclick="openDiscover()"
+            >
+                <span>◈</span>
+                Discover
+            </button>
+
+            <button
+                class="sidebar-link"
+                onclick="openFriends()"
+            >
+                <span>♙</span>
+                People
+            </button>
+
+        </div>
+
+
+        <div class="sidebar-bottom">
+
+            <button
+                class="sidebar-link"
+                onclick="openNotifications()"
+            >
+                <span>♢</span>
+                Notifications
+
+                <span
+                    id="notificationBadge"
+                    class="notification-badge hidden"
+                >
+                    0
+                </span>
+            </button>
+
+            <button
+                class="sidebar-link"
+                onclick="openSettings()"
+            >
+                <span>⚙</span>
+                Settings
+            </button>
+
+
+            <div
+                id="sidebarProfile"
+                class="sidebar-profile"
+                onclick="openProfile()"
+            >
+
+                <div
+                    id="profileAvatar"
+                    class="avatar"
+                >
+                    B
+                </div>
+
+                <div class="profile-info">
+
+                    <strong id="profileName">
+                        Ben
+                    </strong>
+
+                    <small>
+                        Online
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <button
+                class="mobile-menu"
+                onclick="toggleSidebar()"
+            >
+                ☰
+            </button>
+
+            <div
+                id="topbarTitle"
+                class="topbar-title"
+            >
+                Home
+            </div>
+
+
+            <div class="topbar-actions">
+
+                <button
+                    class="icon-button"
+                    onclick="openSearch()"
+                    title="Search"
+                >
+                    ⌕
+                </button>
+
+                <button
+                    class="icon-button"
+                    onclick="openNotifications()"
+                    title="Notifications"
+                >
+                    ♢
+                </button>
+
+                <button
+                    class="profile-button"
+                    onclick="openProfile()"
+                >
+
+                    <div
+                        id="topAvatar"
+                        class="avatar small"
+                    >
+                        B
+                    </div>
+
+                    <span id="topUsername">
+                        Ben
+                    </span>
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+
+        <div
+            id="content"
+            class="content"
+        >
+
+
+            <!-- HOME -->
+
+            <section
+                id="homePage"
+                class="page"
+            >
+
+                <div class="welcome">
+
+                    <div class="eyebrow">
+                        YOUR WORKSPACE
+                    </div>
+
+                    <h1>
+                        Welcome to HUB.
+                    </h1>
+
+                    <p>
+                        Create a space for your team,
+                        friends, projects or community.
+                    </p>
+
+                    <button
+                        class="primary-button"
+                        onclick="openCreateHub()"
+                    >
+                        Create your first Hub
+                    </button>
+
+                </div>
+
+
+                <div class="feature-grid">
+
+
+                    <div class="feature-card">
+
+                        <div class="feature-icon">
+                            ◌
+                        </div>
+
+                        <div>
+
+                            <span class="feature-label">
+                                COMMUNICATION
+                            </span>
+
+                            <h3>
+                                Chat together
+                            </h3>
+
+                            <p>
+                                Talk, reply, react,
+                                share and stay connected.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="feature-card">
+
+                        <div class="feature-icon">
+                            ♙
+                        </div>
+
+                        <div>
+
+                            <span class="feature-label">
+                                PEOPLE
+                            </span>
+
+                            <h3>
+                                Bring people together
+                            </h3>
+
+                            <p>
+                                Friends, teams, communities
+                                and projects in one place.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="feature-card">
+
+                        <div class="feature-icon">
+                            ◈
+                        </div>
+
+                        <div>
+
+                            <span class="feature-label">
+                                EVERYTHING
+                            </span>
+
+                            <h3>
+                                More than chat
+                            </h3>
+
+                            <p>
+                                Events, tasks, files, boards,
+                                notes and much more.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="home-section">
+
+                    <div class="section-heading">
+
+                        <div>
+
+                            <span>
+                                RECENT ACTIVITY
+                            </span>
+
+                            <h2>
+                                Your workspace
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                    <div
+                        id="homeActivity"
+                        class="activity-list"
+                    ></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- HUB -->
+
+            <section
+                id="hubPage"
+                class="page hidden"
+            >
+
+                <div
+                    id="hubHeader"
+                    class="hub-header"
+                ></div>
+
+
+                <div class="hub-layout">
+
+
+                    <aside
+                        id="channelSidebar"
+                        class="channel-sidebar"
+                    ></aside>
+
+
+                    <div class="hub-main">
+
+
+                        <div
+                            id="hubOverview"
+                            class="hub-panel"
+                        >
+
+                            <div class="hub-tabs">
+
+                                <button
+                                    class="hub-tab active"
+                                    onclick="showHubTab('chat')"
+                                >
+                                    Chat
+                                </button>
+
+                                <button
+                                    class="hub-tab"
+                                    onclick="showHubTab('overview')"
+                                >
+                                    Overview
+                                </button>
+
+                                <button
+                                    class="hub-tab"
+                                    onclick="showHubTab('people')"
+                                >
+                                    People
+                                </button>
+
+                                <button
+                                    class="hub-tab"
+                                    onclick="showHubTab('events')"
+                                >
+                                    Events
+                                </button>
+
+                                <button
+                                    class="hub-tab"
+                                    onclick="showHubTab('tasks')"
+                                >
+                                    Tasks
+                                </button>
+
+                                <button
+                                    class="hub-tab"
+                                    onclick="showHubTab('files')"
+                                >
+                                    Files
+                                </button>
+
+                                <button
+                                    class="hub-tab"
+                                    onclick="showHubTab('notes')"
+                                >
+                                    Notes
+                                </button>
+
+                                <button
+                                    class="hub-tab"
+                                    onclick="showHubTab('activity')"
+                                >
+                                    Activity
+                                </button>
+
+                            </div>
+
+
+                            <!-- CHAT -->
+
+                            <div
+                                id="hubChat"
+                                class="hub-tab-content"
+                            >
+
+                                <div
+                                    id="messageList"
+                                    class="message-list"
+                                ></div>
+
+
+                                <div
+                                    id="replyBar"
+                                    class="reply-bar hidden"
+                                >
+
+                                    <span>
+                                        Replying to message
+                                    </span>
+
+                                    <button
+                                        onclick="cancelReply()"
+                                    >
+                                        ×
+                                    </button>
+
+                                </div>
+
+
+                                <div class="chat-composer">
+
+                                    <textarea
+                                        id="messageInput"
+                                        placeholder="Write a message..."
+                                        rows="1"
+                                        onkeydown="messageKeydown(event)"
+                                    ></textarea>
+
+                                    <button
+                                        class="composer-button"
+                                        onclick="sendCurrentMessage()"
+                                    >
+                                        Send
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- OVERVIEW -->
+
+                            <div
+                                id="hubOverviewTab"
+                                class="hub-tab-content hidden"
+                            ></div>
+
+
+                            <!-- PEOPLE -->
+
+                            <div
+                                id="hubPeopleTab"
+                                class="hub-tab-content hidden"
+                            ></div>
+
+
+                            <!-- EVENTS -->
+
+                            <div
+                                id="hubEventsTab"
+                                class="hub-tab-content hidden"
+                            ></div>
+
+
+                            <!-- TASKS -->
+
+                            <div
+                                id="hubTasksTab"
+                                class="hub-tab-content hidden"
+                            ></div>
+
+
+                            <!-- FILES -->
+
+                            <div
+                                id="hubFilesTab"
+                                class="hub-tab-content hidden"
+                            ></div>
+
+
+                            <!-- NOTES -->
+
+                            <div
+                                id="hubNotesTab"
+                                class="hub-tab-content hidden"
+                            ></div>
+
+
+                            <!-- ACTIVITY -->
+
+                            <div
+                                id="hubActivityTab"
+                                class="hub-tab-content hidden"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- DISCOVER -->
+
+            <section
+                id="discoverPage"
+                class="page hidden"
+            >
+
+                <div class="page-heading">
+
+                    <span class="eyebrow">
+                        EXPLORE
+                    </span>
+
+                    <h1>
+                        Discover
+                    </h1>
+
+                    <p>
+                        Find public Hubs and communities.
+                    </p>
+
+                </div>
+
+                <div
+                    id="discoverGrid"
+                    class="discover-grid"
+                ></div>
+
+            </section>
+
+
+            <!-- PEOPLE -->
+
+            <section
+                id="peoplePage"
+                class="page hidden"
+            >
+
+                <div class="page-heading">
+
+                    <span class="eyebrow">
+                        PEOPLE
+                    </span>
+
+                    <h1>
+                        People
+                    </h1>
+
+                    <p>
+                        Find people and manage your connections.
+                    </p>
+
+                </div>
+
+
+                <div class="search-box large">
+
+                    <span>⌕</span>
+
+                    <input
+                        id="peopleSearch"
+                        placeholder="Search usernames..."
+                        oninput="searchPeoplePage()"
+                    >
+
+                </div>
+
+
+                <div
+                    id="peopleResults"
+                    class="people-grid"
+                ></div>
+
+
+                <div class="home-section">
+
+                    <div class="section-heading">
+
+                        <h2>
+                            Friends
+                        </h2>
+
+                    </div>
+
+                    <div
+                        id="friendsList"
+                        class="people-grid"
+                    ></div>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     CREATE HUB MODAL
+========================================================== -->
+
+<div
+    id="createHubModal"
+    class="modal hidden"
+>
+
+    <div class="modal-card">
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    NEW
+                </span>
+
+                <h2>
+                    Create a Hub
+                </h2>
+
+            </div>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('createHubModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <label>
+            Hub name
+        </label>
+
+        <input
+            id="hubName"
+            placeholder="e.g. WeAre Studios"
+        >
+
+
+        <label>
+            Description
+        </label>
+
+        <textarea
+            id="hubDescription"
+            placeholder="What is this Hub for?"
+        ></textarea>
+
+
+        <label>
+            Hub icon
+        </label>
+
+        <div class="icon-upload">
+
+            <div
+                id="hubIconPreview"
+                class="hub-preview-icon"
+            >
+                H
+            </div>
+
+            <div>
+
+                <p>
+                    The first letter is used automatically.
+                </p>
+
+                <input
+                    id="hubIconFile"
+                    type="file"
+                    accept="image/*"
+                    onchange="previewHubIcon(event)"
+                >
+
+            </div>
+
+        </div>
+
+
+        <label>
+            Color
+        </label>
+
+        <div class="color-row">
+
+            <button
+                class="color-option selected"
+                style="--color:#7c5cff"
+                data-color="#7c5cff"
+                onclick="selectHubColor(this)"
+            ></button>
+
+            <button
+                class="color-option"
+                style="--color:#3b82f6"
+                data-color="#3b82f6"
+                onclick="selectHubColor(this)"
+            ></button>
+
+            <button
+                class="color-option"
+                style="--color:#22c55e"
+                data-color="#22c55e"
+                onclick="selectHubColor(this)"
+            ></button>
+
+            <button
+                class="color-option"
+                style="--color:#f59e0b"
+                data-color="#f59e0b"
+                onclick="selectHubColor(this)"
+            ></button>
+
+            <button
+                class="color-option"
+                style="--color:#ef4444"
+                data-color="#ef4444"
+                onclick="selectHubColor(this)"
+            ></button>
+
+            <button
+                class="color-option"
+                style="--color:#ec4899"
+                data-color="#ec4899"
+                onclick="selectHubColor(this)"
+            ></button>
+
+        </div>
+
+
+        <label class="check-line">
+
+            <input
+                id="hubPublic"
+                type="checkbox"
+            >
+
+            <span>
+                Public Hub
+            </span>
+
+        </label>
+
+
+        <label>
+            Rules
+        </label>
+
+        <textarea
+            id="hubRules"
+            placeholder="Optional Hub rules..."
+        ></textarea>
+
+
+        <div
+            id="createHubError"
+            class="form-error"
+        ></div>
+
+
+        <button
+            class="primary-button full"
+            onclick="createHub()"
+        >
+            Create Hub
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     SEARCH MODAL
+========================================================== -->
+
+<div
+    id="searchModal"
+    class="modal hidden"
+>
+
+    <div class="modal-card wide">
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    SEARCH
+                </span>
+
+                <h2>
+                    Search HUB
+                </h2>
+
+            </div>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('searchModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="search-box">
+
+            <span>⌕</span>
+
+            <input
+                id="globalSearchInput"
+                placeholder="Search users, Hubs and messages..."
+                oninput="globalSearch()"
+            >
+
+        </div>
+
+
+        <div
+            id="globalSearchResults"
+            class="search-results"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     SETTINGS MODAL
+========================================================== -->
+
+<div
+    id="settingsModal"
+    class="modal hidden"
+>
+
+    <div class="modal-card wide">
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    ACCOUNT
+                </span>
+
+                <h2>
+                    Settings
+                </h2>
+
+            </div>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('settingsModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="settings-grid">
+
+
+            <div class="settings-section">
+
+                <h3>
+                    Profile
+                </h3>
+
+                <label>
+                    Username
+                </label>
+
+                <input
+                    id="settingsUsername"
+                >
+
+                <label>
+                    Bio
+                </label>
+
+                <textarea
+                    id="settingsBio"
+                    placeholder="Tell people something about you..."
+                ></textarea>
+
+                <div
+                    id="profileSettingsError"
+                    class="form-error"
+                ></div>
+
+                <button
+                    class="secondary-button"
+                    onclick="saveProfileSettings()"
+                >
+                    Save profile
+                </button>
+
+            </div>
+
+
+            <div class="settings-section">
+
+                <h3>
+                    Appearance
+                </h3>
+
+                <label>
+                    Theme
+                </label>
+
+                <select id="settingsTheme">
+
+                    <option value="dark">
+                        Dark
+                    </option>
+
+                    <option value="light">
+                        Light
+                    </option>
+
+                </select>
+
+
+                <label class="check-line">
+
+                    <input
+                        id="settingsCompact"
+                        type="checkbox"
+                    >
+
+                    <span>
+                        Compact mode
+                    </span>
+
+                </label>
+
+
+                <label class="check-line">
+
+                    <input
+                        id="settingsNotifications"
+                        type="checkbox"
+                    >
+
+                    <span>
+                        Notifications
+                    </span>
+
+                </label>
+
+
+                <button
+                    class="secondary-button"
+                    onclick="saveGeneralSettings()"
+                >
+                    Save appearance
+                </button>
+
+            </div>
+
+
+            <div class="settings-section">
+
+                <h3>
+                    Password
+                </h3>
+
+                <input
+                    id="oldPassword"
+                    type="password"
+                    placeholder="Current password"
+                >
+
+                <input
+                    id="newPassword"
+                    type="password"
+                    placeholder="New password"
+                >
+
+                <div
+                    id="passwordError"
+                    class="form-error"
+                ></div>
+
+                <button
+                    class="secondary-button"
+                    onclick="changePassword()"
+                >
+                    Change password
+                </button>
+
+            </div>
+
+
+            <div class="settings-section danger-zone">
+
+                <h3>
+                    Account
+                </h3>
+
+                <p>
+                    Sign out from this HUB installation.
+                </p>
+
+                <button
+                    class="danger-button"
+                    onclick="logout()"
+                >
+                    Sign out
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     NOTIFICATIONS
+========================================================== -->
+
+<div
+    id="notificationsModal"
+    class="modal hidden"
+>
+
+    <div class="modal-card">
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    CENTER
+                </span>
+
+                <h2>
+                    Notifications
+                </h2>
+
+            </div>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('notificationsModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div
+            id="notificationList"
+            class="notification-list"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     PROFILE
+========================================================== -->
+
+<div
+    id="profileModal"
+    class="modal hidden"
+>
+
+    <div class="modal-card">
+
+        <div class="profile-large">
+
+            <div
+                id="largeProfileAvatar"
+                class="avatar huge"
+            >
+                B
+            </div>
+
+            <h2 id="largeProfileName">
+                Ben
+            </h2>
+
+            <p id="largeProfileBio">
+                HUB member
+            </p>
+
+        </div>
+
+
+        <button
+            class="secondary-button full"
+            onclick="closeModal('profileModal'); openSettings()"
+        >
+            Edit profile
+        </button>
+
+
+        <button
+            class="ghost-button full"
+            onclick="closeModal('profileModal')"
+        >
+            Close
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     CONFIRM MODAL
+========================================================== -->
+
+<div
+    id="confirmModal"
+    class="modal hidden"
+>
+
+    <div class="modal-card small">
+
+        <div class="modal-header">
+
+            <h2 id="confirmTitle">
+                Are you sure?
+            </h2>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('confirmModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <p
+            id="confirmText"
+            class="confirm-text"
+        ></p>
+
+        <div class="confirm-actions">
+
+            <button
+                class="ghost-button"
+                onclick="closeModal('confirmModal')"
+            >
+                Cancel
+            </button>
+
+            <button
+                id="confirmAction"
+                class="danger-button"
+            >
+                Confirm
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     TOAST
+========================================================== -->
+
+<div
+    id="toastContainer"
+    class="toast-container"
+></div>
+
+
+<script
+    src="{{ url_for('static', filename='app.js') }}"
+></script>
+
+
+<!-- =========================================================
+     EDIT HUB MODAL
+========================================================== -->
+
+<div
+    id="editHubModal"
+    class="modal hidden"
+>
+    <div class="modal-card">
+
+        <div class="modal-header">
+
+            <div>
+                <span class="eyebrow">
+                    HUB SETTINGS
+                </span>
+
+                <h2>
+                    Edit Hub
+                </h2>
+            </div>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('editHubModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <label>
+            Hub name
+        </label>
+
+        <input
+            id="editHubName"
+            type="text"
+            maxlength="80"
+            placeholder="Hub name"
+        >
+
+        <label>
+            Description
+        </label>
+
+        <textarea
+            id="editHubDescription"
+            maxlength="1000"
+            placeholder="What is this Hub for?"
+        ></textarea>
+
+        <label>
+            Hub image
+        </label>
+
+        <div class="icon-upload">
+
+            <div
+                id="editHubIconPreview"
+                class="hub-preview-icon"
+            >
+                H
+            </div>
+
+            <div>
+
+                <p>
+                    Change the image shown for this Hub.
+                </p>
+
+                <input
+                    id="editHubIconFile"
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp,image/gif"
+                    onchange="previewEditHubIcon(event)"
+                >
+
+            </div>
+
+        </div>
+
+        <label>
+            Color
+        </label>
+
+        <div class="color-row">
+
+            <button
+                class="color-option"
+                style="--color:#7c5cff"
+                data-color="#7c5cff"
+                onclick="selectEditHubColor(this)"
+            ></button>
+
+            <button
+                class="color-option"
+                style="--color:#3b82f6"
+                data-color="#3b82f6"
+                onclick="selectEditHubColor(this)"
+            ></button>
+
+            <button
+                class="color-option"
+                style="--color:#22c55e"
+                data-color="#22c55e"
+                onclick="selectEditHubColor(this)"
+            ></button>
+
+            <button
+                class="color-option"
+                style="--color:#f59e0b"
+                data-color="#f59e0b"
+                onclick="selectEditHubColor(this)"
+            ></button>
+
+            <button
+                class="color-option"
+                style="--color:#ef4444"
+                data-color="#ef4444"
+                onclick="selectEditHubColor(this)"
+            ></button>
+
+            <button
+                class="color-option"
+                style="--color:#ec4899"
+                data-color="#ec4899"
+                onclick="selectEditHubColor(this)"
+            ></button>
+
+        </div>
+
+        <label class="check-line">
+
+            <input
+                id="editHubPublic"
+                type="checkbox"
+            >
+
+            <span>
+                Public Hub
+            </span>
+
+        </label>
+
+        <label>
+            Rules
+        </label>
+
+        <textarea
+            id="editHubRules"
+            maxlength="5000"
+            placeholder="Hub rules..."
+        ></textarea>
+
+        <div
+            id="editHubError"
+            class="form-error"
+        ></div>
+
+        <button
+            class="primary-button full"
+            onclick="saveHubSettings()"
+        >
+            Save changes
+        </button>
+
+    </div>
+</div>
+
+</body>
+
+</html>
