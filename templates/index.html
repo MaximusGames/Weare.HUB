@@ -24,7 +24,7 @@
 
 <!-- =========================================================
      AUTH
-========================================================== -->
+========================================================= -->
 
 <div
     id="authScreen"
@@ -146,12 +146,21 @@
 
 <!-- =========================================================
      APP
-========================================================== -->
+========================================================= -->
 
 <div
     id="app"
     class="app hidden"
 >
+
+
+    <!-- MOBILE OVERLAY -->
+
+    <div
+        id="mobileOverlay"
+        class="mobile-overlay"
+        onclick="toggleSidebar()"
+    ></div>
 
 
     <!-- SIDEBAR -->
@@ -161,8 +170,13 @@
         <div class="sidebar-top">
 
             <div class="brand">
-                <div class="brand-mark">H</div>
-                <span>HUB</span>
+                <div class="brand-mark">
+                    H
+                </div>
+
+                <span>
+                    HUB
+                </span>
             </div>
 
         </div>
@@ -184,7 +198,10 @@
                 class="sidebar-create"
                 onclick="openCreateHub()"
             >
-                <span>+</span>
+                <span>
+                    +
+                </span>
+
                 Create Hub
             </button>
 
@@ -195,25 +212,36 @@
 
             <button
                 class="sidebar-link"
-                onclick="showHome()"
+                onclick="showHome(); toggleSidebar()"
             >
-                <span>⌂</span>
+                <span>
+                    ⌂
+                </span>
+
                 Home
             </button>
 
-            <button
-                class="sidebar-link"
-                onclick="openDiscover()"
-            >
-                <span>◈</span>
-                Discover
-            </button>
 
             <button
                 class="sidebar-link"
-                onclick="openFriends()"
+                onclick="openDiscover(); toggleSidebar()"
             >
-                <span>♙</span>
+                <span>
+                    ◈
+                </span>
+
+                Discover
+            </button>
+
+
+            <button
+                class="sidebar-link"
+                onclick="openFriends(); toggleSidebar()"
+            >
+                <span>
+                    ♙
+                </span>
+
                 People
             </button>
 
@@ -224,9 +252,13 @@
 
             <button
                 class="sidebar-link"
-                onclick="openNotifications()"
+                onclick="openNotifications(); toggleSidebar()"
             >
-                <span>♢</span>
+
+                <span>
+                    ♢
+                </span>
+
                 Notifications
 
                 <span
@@ -235,21 +267,28 @@
                 >
                     0
                 </span>
+
             </button>
+
 
             <button
                 class="sidebar-link"
-                onclick="openSettings()"
+                onclick="openSettings(); toggleSidebar()"
             >
-                <span>⚙</span>
+
+                <span>
+                    ⚙
+                </span>
+
                 Settings
+
             </button>
 
 
             <div
                 id="sidebarProfile"
                 class="sidebar-profile"
-                onclick="openProfile()"
+                onclick="openProfile(); toggleSidebar()"
             >
 
                 <div
@@ -290,9 +329,11 @@
             <button
                 class="mobile-menu"
                 onclick="toggleSidebar()"
+                aria-label="Menü öffnen"
             >
                 ☰
             </button>
+
 
             <div
                 id="topbarTitle"
@@ -312,6 +353,7 @@
                     ⌕
                 </button>
 
+
                 <button
                     class="icon-button"
                     onclick="openNotifications()"
@@ -319,6 +361,7 @@
                 >
                     ♢
                 </button>
+
 
                 <button
                     class="profile-button"
@@ -724,6 +767,7 @@
 
                 </div>
 
+
                 <div
                     id="discoverGrid"
                     class="discover-grid"
@@ -758,7 +802,9 @@
 
                 <div class="search-box large">
 
-                    <span>⌕</span>
+                    <span>
+                        ⌕
+                    </span>
 
                     <input
                         id="peopleSearch"
@@ -794,7 +840,6 @@
 
             </section>
 
-
         </div>
 
     </main>
@@ -804,7 +849,7 @@
 
 <!-- =========================================================
      CREATE HUB MODAL
-========================================================== -->
+========================================================= -->
 
 <div
     id="createHubModal"
@@ -983,7 +1028,7 @@
 
 <!-- =========================================================
      SEARCH MODAL
-========================================================== -->
+========================================================= -->
 
 <div
     id="searchModal"
@@ -1018,7 +1063,9 @@
 
         <div class="search-box">
 
-            <span>⌕</span>
+            <span>
+                ⌕
+            </span>
 
             <input
                 id="globalSearchInput"
@@ -1041,7 +1088,7 @@
 
 <!-- =========================================================
      SETTINGS MODAL
-========================================================== -->
+========================================================= -->
 
 <div
     id="settingsModal"
@@ -1075,7 +1122,6 @@
 
 
         <div class="settings-grid">
-
 
             <div class="settings-section">
 
@@ -1237,7 +1283,7 @@
 
 <!-- =========================================================
      NOTIFICATIONS
-========================================================== -->
+========================================================= -->
 
 <div
     id="notificationsModal"
@@ -1282,7 +1328,7 @@
 
 <!-- =========================================================
      PROFILE
-========================================================== -->
+========================================================= -->
 
 <div
     id="profileModal"
@@ -1333,7 +1379,7 @@
 
 <!-- =========================================================
      CONFIRM MODAL
-========================================================== -->
+========================================================= -->
 
 <div
     id="confirmModal"
@@ -1387,7 +1433,7 @@
 
 <!-- =========================================================
      TOAST
-========================================================== -->
+========================================================= -->
 
 <div
     id="toastContainer"
@@ -1395,24 +1441,21 @@
 ></div>
 
 
-<script
-    src="{{ url_for('static', filename='app.js') }}"
-></script>
-
-
 <!-- =========================================================
      EDIT HUB MODAL
-========================================================== -->
+========================================================= -->
 
 <div
     id="editHubModal"
     class="modal hidden"
 >
+
     <div class="modal-card">
 
         <div class="modal-header">
 
             <div>
+
                 <span class="eyebrow">
                     HUB SETTINGS
                 </span>
@@ -1420,6 +1463,7 @@
                 <h2>
                     Edit Hub
                 </h2>
+
             </div>
 
             <button
@@ -1430,6 +1474,7 @@
             </button>
 
         </div>
+
 
         <label>
             Hub name
@@ -1442,6 +1487,7 @@
             placeholder="Hub name"
         >
 
+
         <label>
             Description
         </label>
@@ -1451,6 +1497,7 @@
             maxlength="1000"
             placeholder="What is this Hub for?"
         ></textarea>
+
 
         <label>
             Hub image
@@ -1481,6 +1528,7 @@
             </div>
 
         </div>
+
 
         <label>
             Color
@@ -1532,6 +1580,7 @@
 
         </div>
 
+
         <label class="check-line">
 
             <input
@@ -1545,6 +1594,7 @@
 
         </label>
 
+
         <label>
             Rules
         </label>
@@ -1555,10 +1605,12 @@
             placeholder="Hub rules..."
         ></textarea>
 
+
         <div
             id="editHubError"
             class="form-error"
         ></div>
+
 
         <button
             class="primary-button full"
@@ -1568,7 +1620,18 @@
         </button>
 
     </div>
+
 </div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script
+    src="{{ url_for('static', filename='app.js') }}"
+></script>
+
 
 </body>
 
